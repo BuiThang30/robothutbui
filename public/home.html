@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang = "vn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="image/robot_hutbui.svg" type="image/svg+xml">
+  <title>Robot lọc không khí</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!--Navbar-->
+  <div class="navbar">
+    <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+    <div class="nav-container" id="nav-container">
+      <div class="nav-left">
+        <a href="#">SENSOR</a>
+        <a href="#control">CONTROL</a>
+        <a href="#about">ABOUT</a>
+        <a href="#contact">CONTACT</a>
+      </div>
+      <div class="nav-right">
+        <a href="/api/auth/logout" class="logout-link">
+          LOGOUT <img src="image/logout.svg" class="logout-icon" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <!--Parameter-->
+  <div id="parameter" class="parameter">
+    <div class="title">SENSOR</div>
+    <!-- Temperature -->
+    <div class="box">
+      <div class="card">
+        <div class="left">
+          <h3 class="title">Temperature</h3>
+          <h1 id="tempValue" class="temp">-- °C</h1>
+          <p id="statusTemp" class="status">--</p>
+        </div>
+
+        <div class="center">
+          <canvas id="chartTemp"></canvas>
+        </div>
+
+        <div class="right">
+          <p>Max <span id="tempMax">-- °C</span></p>
+          <p>Min <span id="tempMin">-- °C</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Humidity -->
+    <div class="box">
+      <div class="card">
+        <div class="left">
+          <h3 class="title">Humidity</h3>
+          <h1 id="humValue" class="temp">-- %</h1>
+          <p id="statusHumidity" class="status">--</p>
+        </div>
+
+        <div class="center">
+          <canvas id="chartHumidity"></canvas>
+        </div>
+
+        <div class="right">
+          <p>Max <span id="humMax">-- %</span></p>
+          <p>Min <span id="humMin">-- %</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CO2 -->
+    <div class="box">
+      <div class="card">
+        <div class="left">
+          <h3 class="title">CO2</h3>
+          <h1 id="co2Value" class="temp">-- PPM</h1>
+          <p id="statusCO2" class="status">--</p>
+        </div>
+
+        <div class="center">
+          <canvas id="chartCO2"></canvas>
+        </div>
+
+        <div class="right">
+          <p>Max <span id="co2Max">-- PPM</span></p>
+          <p>Min <span id="co2Min">-- PPM</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PM1.0 -->
+    <div class="box">
+      <div class="card">
+        <div class="left">
+          <h3 class="title">PM1.0</h3>
+          <h1 id="pm1Value" class="temp">-- μg/m³</h1>
+          <p id="statusPM1" class="status">--</p>
+        </div>
+
+        <div class="center">
+          <canvas id="chartPM1"></canvas>
+        </div>
+
+        <div class="right">
+          <p>Max <span id="pm1Max">-- μg/m³</span></p>
+          <p>Min <span id="pm1Min">-- μg/m³</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PM2.5 -->
+    <div class="box">
+      <div class="card">
+        <div class="left">
+          <h3 class="title">PM2.5</h3>
+          <h1 id="pm25Value" class="temp">-- μg/m³</h1>
+          <p id="statusPM25" class="status">--</p>
+        </div>
+
+        <div class="center">
+          <canvas id="chartPM25"></canvas>
+        </div>
+
+        <div class="right">
+          <p>Max <span id="pm25Max">-- μg/m³</span></p>
+          <p>Min <span id="pm25Min">-- μg/m³</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PM10 -->
+    <div class="box">
+      <div class="card">
+        <div class="left">
+          <h3 class="title">PM10</h3>
+          <h1 id="pm10Value" class="temp">-- μg/m³</h1>
+          <p id="statusPM10" class="status">--</p>
+        </div>
+
+        <div class="center">
+          <canvas id="chartPM10"></canvas>
+        </div>
+
+        <div class="right">
+          <p>Max <span id="pm10Max">-- μg/m³</span></p>
+          <p>Min <span id="pm10Min">-- μg/m³</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--Control-->
+  <div id="control" class="control">
+    <div class="title">CONTROL</div>
+
+    <!-- Switch chế độ -->
+    <div class="mode-switch">
+      <label class="switch">
+        <input type="checkbox" id="modeSwitch">
+        <span class="slider-switch"></span>
+      </label>
+      <span id="modeLabel">Tự động</span>
+    </div>
+
+    <!-- Khung điều khiển -->
+    <div id="controlBox" class="control-box disabled">
+      <div class="row">
+        <button id="btnUp" class="control-btn">▲</button>
+      </div>
+      <div class="row">
+        <button id="btnLeft" class="control-btn">◀</button>
+        <button id="btnPower" class="control-btn power-btn off">OFF</button>
+        <button id="btnRight" class="control-btn">▶</button>
+      </div>
+      <div class="row">
+        <button id="btnDown" class="control-btn">▼</button>
+      </div>
+
+      <!-- Thanh trượt tốc độ -->
+      <div class="speed-control">
+        <label>Tốc độ: <span id="speedValue">0</span></label><br>
+        <input type="range" id="speedBar" min="0" max="25" value="0">
+      </div>
+    </div>
+  </div>
+
+
+  <!--About-->
+  <div id="about" class="about">
+    <div class="title">ABOUT</div>
+    <div class="description">
+      <p>
+        Robot của tôi là một thiết bị thông minh được trang bị cảm biến quan trắc chất lượng không khí và một hệ thống lọc không khí tích hợp kèm phun sương. Khi chất lượng không khí, độ ẩm trong phòng đạt chuẩn, robot sẽ tự động tìm cửa để di chuyển sang khu vực khác, tiếp tục giám sát và lọc không khí nếu cần. Robot còn có khả năng điều khiển và theo dõi dữ liệu chất lượng không khí trực tuyến qua web, giúp người dùng nắm bắt tình trạng môi trường mọi lúc mọi nơi. Trong tương lai, robot sẽ được nâng cấp với cảm biến LiDAR, cho phép quét bản đồ phòng và di chuyển thông minh hơn, tối ưu quá trình lọc và quan trắc không khí.
+      </p>
+      <div class="slide">
+        <div class="slide-item active">
+          <img src="image/test1.jpg" class="slide-img" />
+          <div class="caption">Chú thích ảnh 1</div>
+        </div>
+        <div class="slide-item">
+            <img src="image/test2.jpg" class="slide-img" />
+            <div class="caption">Chú thích ảnh 2</div>
+        </div>
+        <div class="slide-item">
+            <img src="image/test3.jpg" class="slide-img" />
+            <div class="caption">Chú thích ảnh 3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Contact-->
+  <div id="contact" class="contact-section">
+    <div class="title">Contact</div>
+    <div class="contact-container">
+      <div class="contact-info">
+        <p>
+          <img class="icon" src="image/map-marker-alt-solid.svg" alt="location icon" />
+          Tầng 4, số 4 ngõ 48 Nguyễn Chánh, Trung Hòa, Hà Nội 
+        </p>
+        <p>
+          <img class="icon" src="image/phone-alt-solid.svg" alt="phone icon" />
+          Phone: 0385775829
+        </p>
+        <p>
+          <img class="icon" src="image/envelope-solid.svg" alt="email icon" />
+          Email: buiquangthang30102003@mail.com
+        </p>
+      </div>
+
+    <div class="form-wrapper">
+      <div class="contact-form">
+          <div class="row">
+            <div class="input-group">
+              <input type="text" id="name" placeholder="Name" />
+              <div class="error-message" id="error-name"></div>
+            </div>
+            <div class="input-group">
+              <input type="email" id="email" placeholder="Email" />
+              <div class="error-message" id="error-email"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-group full-width">
+              <input type="text" id="message" placeholder="Message" />
+              <div class="error-message" id="error-message"></div>
+            </div>
+          </div>
+
+          <div class="row right-align">
+            <button onclick="sendMessage()">SEND</button>
+          </div>
+
+          <div id="alertBox" class="alert-box" style="display:none;">
+            <span id="closeBtn" class="close-btn">&times;</span>
+            <p>✅ Gửi thành công!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="end">
+      <div>
+        <a href="https://www.facebook.com/tieubbachtho"><img src="image/facebook-square-brands-solid.svg" alt="Facebook" style="width: 24px; margin: 0 3px;"></a>
+        <a href="https://www.instagram.com/tieubbachtho/"><img src="image/instagram-brands-solid.svg" alt="Instagram" style="width: 24px; margin: 0 3px;"></a>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
