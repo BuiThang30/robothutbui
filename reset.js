@@ -13,8 +13,8 @@ const db = new sqlite3.Database(dbFile, (err) => {
 
 (async () => {
   try {
-    const oldPassword = 'admin';
-    const newPassword = 'thang3010';
+    const oldPassword = 'thang3010';
+    const newPassword = 'minhkhoi';
     const username = 'admin';
 
     // Lấy user admin
