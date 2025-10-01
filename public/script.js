@@ -1,42 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Login Form ---
-  const form = document.getElementById('loginForm');
-  const errorMessage = document.getElementById('errorMessage');
-  const successMessage = document.getElementById('successMessage');
-
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorMessage.textContent = '';
-      successMessage.textContent = '';
-
-      const username = form.username.value.trim();
-      const password = form.password.value.trim();
-
-      try {
-        const res = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-          successMessage.textContent = 'Đăng nhập thành công!...';
-          setTimeout(() => { window.location.href = '/home'; }, 1000);
-        } else {
-          errorMessage.textContent = 'Sai tài khoản hoặc mật khẩu!';
-          form.reset();
-          form.username.focus();
-        }
-      } catch (err) {
-        console.error(err);
-        errorMessage.textContent = 'Lỗi server, thử lại sau.';
-      }
-    });
-  }
-
   // --- Slider ---
   const slides = document.querySelectorAll('.slide-item');
   if (slides.length > 0) {
