@@ -30,8 +30,8 @@ function calculateAverage(dataArray) {
 }
 
 let deviceStatus = "offline";
-let mode = "auto";      // auto hoặc manual
-let motorOn = false;    // trạng thái động cơ
+let mode = "auto";
+let motorOn = false;
 
 function initSocket(server) {
   const socketio = require("socket.io");
