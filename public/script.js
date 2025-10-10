@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchLatest();
   setInterval(fetchLatest, 5000);
   // Phần Socket & Điều khiển Robot
-  const socket = io("http://localhost:3000"); // đổi sang IP server NodeJS
+  const socket = io();
 
   let currentSpeed = 0;
   let mode = "auto";
