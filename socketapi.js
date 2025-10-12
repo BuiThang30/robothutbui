@@ -38,7 +38,6 @@ function initSocket(server) {
   const io = socketio(server, {
     cors: { origin: "*", methods: ["GET", "POST"], credentials: true },
     transports: ["polling", "websocket"],
-    allowEIO3: true,
   });
 
   io.on("connection", (socket) => {
