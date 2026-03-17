@@ -175,6 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSpeed = 0;
   let mode = "auto";
   let powerOn = false;
+  let dewOn = false;
+  let airOn = false;
 
   const modeSwitch = document.getElementById("modeSwitch");
   const modeLabel  = document.getElementById("modeLabel");
@@ -187,6 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnPower = document.getElementById("btnPower");
   const speedBar = document.getElementById("speedBar");
   const speedValue = document.getElementById("speedValue");
+
+  const btnDew = document.getElementById("btnDew");
+  const btnAir = document.getElementById("btnAir");
 
   // --- Set trạng thái mặc định khi load trang ---
   if (!modeSwitch.checked) {
@@ -246,6 +251,27 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit("toggle-motor", powerOn ? "on" : "off");
   });
 
+  // --- Nút Phun sương ---
+  btnDew.addEventListener("click", () => {
+    if (mode !== "manual") return;
+    dewOn = !dewOn;
+    btnDew.textContent = dewOn ? "ON" : "OFF";
+    btnDew.classList.toggle("off", !dewOn);
+
+    // Gửi đúng event mà server lắng nghe
+    socket.emit("toggle-dew", dewOn ? "on" : "off");
+  });
+
+      // --- Nút Lọc không khí ---
+  btnAir.addEventListener("click", () => {
+    if (mode !== "manual") return;
+    airOn = !airOn;
+    btnAir.textContent = airOn ? "ON" : "OFF";
+    btnAir.classList.toggle("off", !airOn);
+
+    // Gửi đúng event mà server lắng nghe
+    socket.emit("toggle-air", airOn ? "on" : "off");
+  });
 
 
   // --- Gửi Gmail ---

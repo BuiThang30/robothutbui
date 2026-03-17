@@ -32,6 +32,8 @@ function calculateAverage(dataArray) {
 let deviceStatus = "offline";
 let mode = "auto";
 let motorOn = false;
+let dewOn = false;
+let airOn = false;
 
 function initSocket(server) {
   const socketio = require("socket.io");
@@ -130,6 +132,20 @@ function initSocket(server) {
       motorOn = state === "on";
       io.emit("esp-command", { type: "motor", value: motorOn ? "on" : "off" });
       console.log("Motor state:", motorOn ? "ON" : "OFF");
+    });
+
+    // ===== bật/tắt phun sương ======
+    socket.on("toggle-dew", (state) => {
+      dewOn = state === "on";
+      io.emit("esp-command", { type: "dew", value: dewOn ? "on" : "off" });
+      console.log("Dew state:", dewOn ? "ON" : "OFF");
+    });
+
+    // ===== bật/tắt lọc không khí ======
+    socket.on("toggle-air", (state) => {
+      airOn = state === "on";
+      io.emit("esp-command", { type: "air", value: airOn ? "on" : "off" });
+      console.log("Air state:", airOn ? "ON" : "OFF");
     });
 
     // ====== điều khiển tốc độ / hướng ======
