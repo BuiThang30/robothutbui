@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await fetch("/api/data/history");
       const rows = await res.json();
-      rows.reverse().forEach(r => {
+      rows.forEach(r => {
         const time = formatTimeUTC7(r.timestamp);
         const mapping = {
           temperature: r.temperature,
