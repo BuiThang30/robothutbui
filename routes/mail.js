@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
     await transporter.sendMail({
       from: `"Website" <${process.env.MAIL_USER}>`,
-      to: "nguyengiakhang10122008@gmail.com",
+      to: "nguyengiakhanh10122008@gmail.com",
       subject: "Tin nhắn từ website",
       html: `
         <h3>Bạn nhận được một tin nhắn mới</h3>
