@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnDew.addEventListener("click", () => {
     if (mode !== "manual") return;
     dewOn = !dewOn;
-    btnDew.textContent = dewOn ? "ON" : "OFF";
+    btnDew.textContent = dewOn ? "Phun Sương" : "Phun Sương";
     btnDew.classList.toggle("off", !dewOn);
 
     // Gửi đúng event mà server lắng nghe
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnAir.addEventListener("click", () => {
     if (mode !== "manual") return;
     airOn = !airOn;
-    btnAir.textContent = airOn ? "ON" : "OFF";
+    btnAir.textContent = airOn ? "Lọc Không khí" : "Lọc không khí";
     btnAir.classList.toggle("off", !airOn);
 
     // Gửi đúng event mà server lắng nghe
